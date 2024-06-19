@@ -1,0 +1,53 @@
+﻿@using PageSage.Dto;
+@model AppUserRegisterDto;
+@{
+	Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>PageSage - Yeni Kullanıcı Kaydı</title>
+	<link rel="stylesheet" type="text/css" href="~/css/LoginStyle.css">
+</head>
+<body>
+	<div class="container">
+		<div class="wrapper">
+			<div class="title"><span>Kayıt Ol</span></div>
+			<form method="post">
+				<div class="row">
+					<i class="fas fa-user"></i>
+					<input type="text" asp-for="Name" placeholder="Adınız" required>
+				</div>
+				<div class="row">
+					<i class="fas fa-user"></i>
+					<input type="text" asp-for="Surname" placeholder="Soyadınız" required>
+				</div>
+				<div class="row">
+					<i class="fas fa-user"></i>
+					<input type="text" asp-for="Username" placeholder="Kullanıcı Adınız" required>
+				</div>
+				<div class="row">
+					<i class="fa fa-envelope"></i>
+					<input type="email" asp-for="Email" placeholder="Email Adresiniz" required>
+				</div>
+				<div class="row">
+					<i class="fas fa-lock"></i>
+					<input type="password" asp-for="Password" placeholder="Şifreniz" required>
+				</div>
+				<div class="row">
+					<i class="fas fa-lock"></i>
+					<input type="password" asp-for="ConfirmPassword" placeholder="Şifrenizi Tekrar Giriniz" required>
+				</div>
+				<div asp-validation-summary="ModelOnly"></div>
+				<div class="row button">
+					<input type="submit" value="Kayıt Ol">
+				</div>
+				<div class="register-link">Zaten bir hesabın var mı?<a href="/Login/Index">Giriş Yap</a></div>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>

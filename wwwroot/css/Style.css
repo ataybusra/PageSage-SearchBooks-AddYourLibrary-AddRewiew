@@ -1,0 +1,188 @@
+﻿body.dark-theme {
+    background-color: #1a1a1a; /* Koyu gri arka plan */
+    color: #ffffff; /* Beyaz metin rengi */
+}
+
+body.light-theme {
+    background-color: #ffffff; /* Açık gri arka plan */
+    color: #ffff; /* Siyah metin rengi */
+}
+
+body {
+    background-color: #1a1a1a;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    margin: 0 auto;
+    max-width: 760px;
+    margin-bottom: 10px;
+    padding: 20px; /* Gri arka planı daha belirgin hale getirir */
+    background-color: #444; /* Gri arka plan */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Hafif bir gölge */
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.review-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.review {
+    background-color: #333;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Hafif bir gölge */
+}
+
+    .review h3 {
+        margin-bottom: 10px;
+        padding: 10px; /* Gri arka planı daha belirgin hale getirir */
+        background-color: #444; /* Gri arka plan */
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Daha belirgin bir gölge */
+    }
+
+    .review p {
+        margin: 5px 0;
+    }
+
+    .review hr {
+        border-color: #777;
+    }
+
+h1 {
+    padding: 0px;
+    text-align: center;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto 50px auto;
+    padding: 20px;
+    background-color: #333; /* Koyu gri arka plan */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1); /* Hafif bir gölgelendirme */
+}
+
+.book-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Kitapları ortalamak için */
+}
+
+.book-item {
+    width: calc(33.33% - 20px); /* 3 sütunlu düzen, aralarında 20 piksel boşluk */
+    margin-bottom: 40px; /* Aralardaki boşluk */
+    border-radius: 5px;
+    text-align: center;
+    overflow: hidden; /* Resimlerin sınırları aşmasını önle */
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s; /* Yumuşak geçiş efekti */
+    display: inline-block; /* Yan yana dizmek için */
+}
+
+    .book-item:hover {
+        transform: scale(1.05); /* Biraz büyüt */
+    }
+
+    .book-item img {
+        width: 200px; /* Resimlerin sabit genişliği */
+        height: 300px; /* Resimlerin sabit yüksekliği */
+        transition: transform 0.3s; /* Yumuşak geçiş efekti */
+    }
+
+    .book-item h3 {
+        margin: 10px 0;
+        padding: 5px;
+        background-color: rgba(0, 0, 0, 0.5); /* Yarı şeffaf arka plan */
+        font-size: 16px;
+        border-radius: 0 0 5px 5px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1; /* Kitap ismi resmin üzerine çıksın */
+        transition: transform 0.3s; /* Yumuşak geçiş efekti */
+    }
+
+    .book-item:hover img,
+    .book-item:hover h3 {
+        transform: scale(1.05); /* Resim ve metni biraz büyüt */
+    }
+
+.modal {
+    display: none; /* Modal başlangıçta gizli */
+    position: fixed; /* Diğer elemanların üstünde kalacak */
+    z-index: 1; /* Diğer elemanların önünde olacak */
+    padding-top: 100px; /* Modal, ekranın en üstünde olacak şekilde ayarlanır */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* İçeriğin dışına taşması durumunda kaydırma çubuğu göster */
+    background-color: rgb(0,0,0); /* Tamamen siyah bir arka plan */
+    background-color: rgba(0,0,0,0.4); /* Tamamen siyah bir arka plan (şeffaflık ile) */
+}
+
+.modal-content {
+    color: #000; /* Beyaz metin rengi */
+    background-color: #bebebe; /* Beyaz bir arka plan */
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Modal içeriğinin genişliği */
+    border-radius: 10px;
+    position: relative;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+form {
+    text-align: center;
+}
+
+input[type="text"] {
+    padding: 10px;
+    width: 60%;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Yeşil buton arka plan rengi */
+    border: none;
+    border-radius: 5px;
+    color: #fff; /* Beyaz buton metin rengi */
+    font-size: 16px;
+    cursor: pointer;
+}
+
+    input[type="submit"]:hover {
+        background-color: #45a049; /* Hafifçe koyulaştırılmış yeşil */
+    }
+
+

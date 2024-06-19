@@ -1,0 +1,45 @@
+﻿@using PageSage.Areas.Identity.Data
+@model List<UserBook>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>All Reviews</title>
+	<link rel="stylesheet" type="text/css" href="~/css/Style.css">
+</head>
+<body class="light-theme">
+	<button class="btn" onclick="toggleTheme()">Toggle Theme</button>
+	<h2>All Reviews</h2>
+	<div class="review-container">
+		@foreach (var book in Model)
+		{
+			<div class="review">
+				<h3>@book.Title</h3>
+				<p>Yazar: @book.Authors</p>
+				<p>Başlangıç Tarihi: @book.BeginDate</p>
+
+				@if (!string.IsNullOrEmpty(book.Review))
+				{
+					<h4>Review</h4>
+					<p>@book.Review</p>
+				}
+				@if (book.Puan != null)
+				{
+					<h4>Puan</h4>
+					<p>@book.Puan</p>
+				}
+
+			</div>
+		}
+	</div>
+	<script>
+		function toggleTheme() {
+			const body = document.body;
+			body.classList.toggle('dark-theme');
+			body.classList.toggle('light-theme');
+		}
+	</script>
+</body>
+</html>

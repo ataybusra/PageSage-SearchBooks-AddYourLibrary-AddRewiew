@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Search Page</title>
+	<link rel="stylesheet" type="text/css" href="~/css/Style.css">
+
+</head>
+<body class="dark-theme">
+	<button class="btn" onclick="toggleTheme()">Toggle Theme</button>
+
+	<h1>Search</h1>
+	<div>
+		<form id="searchForm">
+			<label for="query">Search Query:</label>
+			<input type="text" id="query" name="query" />
+			<button type="submit">Search</button>
+		</form>
+		<br />
+		<form id="categoryForm">
+			<label for="category">Select Category:</label>
+			<select id="category" name="category">
+				<option value="ART">ART</option>
+				<option value="ARCHITECTURE">ARCHITECTURE</option>
+				<option value="GRAPHIC NOVELS">GRAPHIC NOVELS</option>
+				<option value="COMICS">COMICS</option>
+				<option value="COOKING">COOKING</option>
+				<option value="HISTORY">HISTORY</option>
+				<option value="FANTASY">FANTASY</option>
+				<option value="MEDICAL">MEDICAL</option>
+				<option value="PHILOSOPHY">PHILOSOPHY</option>
+				<option value="SCIENCE">SCIENCE</option>
+				<option value="CRIME">TRUE CRIME</option>
+				<option value="FICTION">FICTION</option>
+				<option value="NONFICTION">NONFICTION</option>
+			</select>
+			<button type="submit">Search by Category</button>
+		</form>
+	</div>
+	<br />
+	<br />
+	<div id="results"></div>
+
+	<div id="modal" class="modal">
+		<div class="modal-content">
+			<span class="close" onclick="closeModal()">&times;</span>
+			<div id="bookDetails"></div>
+		</div>
+	</div>
+
+	<script>
+		document.getElementById("categoryForm").addEventListener("submit", function (event) {
+			event.preventDefault(); // Formun varsayılan davranışını engeller
+
+			var category = document.getElementById("category").value; // Kategoriyi alır
+
+			// Arama sorgusu ile bir HTTP GET isteği gönderir
+			fetch("https://www.googleapis.com/books/v1/volumes?q=subject:" + category)
+				.then(response => {
+					if (!response.ok) {
+						throw new Error("HTTP error, status = " + response.status);
+					}
+					return response.json(); // Yanıtı JSON olarak ayrıştırır
+				})
+				.then(data => {
+					// API'den gelen verileri işler
+					displayResults(data.items);
+				})
+				.catch(error => {
+					console.error("Error fetching data:", error);
+				});
+		});
+
+		document.getElementById("searchForm").addEventListener("submit", function (event) {
+			event.preventDefault();
+
+			var query = document.getElementById("query").value;
+
+			// Arama sorgusu ile bir HTTP GET isteği gönderir
+			fetch("https://www.googleapis.com/books/v1/volumes?q=" + query)
+				.then(response => {
+					if (!response.ok) {
+						throw new Error("HTTP error, status = " + response.status);
+					}
+					return response.json(); // Yanıtı JSON olarak ayrıştırır
+				})
+				.then(data => {
+					displayResults(data.items); // API'den gelen verileri işler
+				})
+				.catch(error => {
+					console.error("Error fetching data:", error);
+				});
+		});
+
+		function displayResults(items) {
+			var resultsDiv = document.getElementById("results");
+			resultsDiv.innerHTML = ""; // Önceki sonuçları temizle
+
+			if (items && items.length > 0) { // Eğer öğeler varsa
+				items.forEach(item => { // Her bir kitap için yeni bir div oluşturarak başlığını ve resmini değişkenlere ata
+					var div = document.createElement("div"); // Yeni bir div oluştur
+					div.className = "book-item"; // Div'e "book-item" sınıfı ekle
+					var img = document.createElement("img"); 
+					img.src = item.volumeInfo.imageLinks.thumbnail; 
+					img.alt = item.volumeInfo.title + " thumbnail"; 
+					var h3 = document.createElement("h3"); 
+					h3.textContent = item.volumeInfo.title; 
+
+					// Kitap öğesine 'data-id' özelliği ekleyerek kitabın id'sini sakla
+					div.setAttribute('data-id', item.id);
+
+					div.appendChild(img); // Div'e resmi ekle
+					div.appendChild(h3); // Div'e başlığı ekle
+					div.addEventListener("click", function () {
+						showBookDetails(item); // Kitap detaylarını göstermek için fonksiyonu çağır
+					});
+					resultsDiv.appendChild(div); // Sonuçlar bölümüne div'i ekle
+				});
+			} else {
+				resultsDiv.textContent = "No results found.";
+			}
+		}
+
+		function showBookDetails(bookInfo) {
+			var modal = document.getElementById("modal");
+			var bookDetailsDiv = document.getElementById("bookDetails");
+			bookDetailsDiv.innerHTML = "";
+
+			var title = document.createElement("h1");	//başlık
+			title.textContent = bookInfo.volumeInfo.title;
+			bookDetailsDiv.appendChild(title);
+
+			var authors = document.createElement("p");		//yazar
+			authors.innerHTML = "<strong>Authors:</strong> " + (bookInfo.volumeInfo.authors ? bookInfo.volumeInfo.authors.join(", ") : "Unknown");
+			bookDetailsDiv.appendChild(authors);
+
+			var description = document.createElement("p");		//acıklama
+			description.innerHTML = "<strong>Description:</strong> " + (bookInfo.volumeInfo.description ? bookInfo.volumeInfo.description : "No description available");
+			bookDetailsDiv.appendChild(description);
+
+			var pageCount = document.createElement("p");		//sayfa sayısı
+			pageCount.innerHTML = "<strong>Page Count:</strong> " + bookInfo.volumeInfo.pageCount;
+			bookDetailsDiv.appendChild(pageCount);
+
+			var language = document.createElement("p");		//dil
+			language.innerHTML = "<strong>Language:</strong> " + bookInfo.volumeInfo.language;
+			bookDetailsDiv.appendChild(language);
+
+			// Seçilen kitabın ISBN numarasını al
+			var selectedBookISBN = bookInfo.volumeInfo.industryIdentifiers.find(identifier => identifier.type === "ISBN_13").identifier;
+			var isbnDisplay = document.createElement("p");
+			isbnDisplay.innerHTML = "<strong>ISBN:</strong> " + selectedBookISBN;
+			bookDetailsDiv.appendChild(isbnDisplay);
+
+			// ID numarası
+			var idDisplay = document.createElement("h6");
+			idDisplay.innerHTML = "<strong>id:</strong> " + bookInfo.id;
+			bookDetailsDiv.appendChild(idDisplay);
+
+			var infoLink = document.createElement("a");  //google bookstan satın alma linki
+			infoLink.innerHTML = "<strong>Buy From Google Books</strong> ";
+			infoLink.href = bookInfo.volumeInfo.infoLink;
+			infoLink.target = "_blank";
+			bookDetailsDiv.appendChild(infoLink);
+
+			modal.style.display = "block";
+
+			var modal = document.getElementById("modal");
+
+			// Modal kapatma butonuna tıklandığında
+			var closeBtn = document.getElementsByClassName("close")[0];
+			closeBtn.onclick = function () {
+				modal.style.display = "none";
+			};
+
+			// Modal dışına tıklandığında
+			window.onclick = function (event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+				}
+			};
+		}
+
+		function toggleTheme() {
+			const body = document.body;
+			body.classList.toggle('dark-theme');
+			body.classList.toggle('light-theme');
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+﻿@using PageSage.Dto;
+@model AppUserLoginDto;
+@{
+	Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>PageSage - Yeni Kullanıcı Kaydı</title>
+	<link rel="stylesheet" type="text/css" href="~/css/LoginStyle.css">
+</head>
+<body >
+	<div class="container">
+		<div class="wrapper">
+			<div class="title"><span>Giriş Yap</span></div>
+			<form method="post">
+				<div class="row">
+					<i class="fas fa-user"></i>
+					<input type="text" asp-for="Username" placeholder="Kullanıcı Adınız" required>
+				</div>
+				<div class="row">
+					<i class="fas fa-lock"></i>
+					<input type="password" asp-for="Password" placeholder="Şifreniz" required>
+				</div>
+				<div class="row button">
+					<input type="submit" value="Giriş Yap">
+				</div>
+				<div class="register-link">Hesabın yok mu?<a href="/Register/Index">Kayıt Ol</a></div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

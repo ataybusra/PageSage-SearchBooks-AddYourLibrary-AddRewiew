@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Kitap Listesi</title>
+	<link rel="stylesheet" type="text/css" href="~/css/TableStyle.css">
+</head>
+
+<body class="light-theme">
+	<button class="btn" onclick="toggleTheme()">Toggle Theme</button>
+	<h2>Kitap Listesi</h2>
+	<form method="get" action="/Book/Add">
+		<button type="submit" class="btn btn-primary">Kitap Ekle</button>
+	</form>
+	<table>
+		<thead>
+			<tr>
+				<th>Başlık</th>
+				<th>Yazar</th>
+				<th>Başlangıç Tarihi</th>
+				<th>Kaçıncı Sayfadasın</th>
+				<th>Tamamlandı Mı?</th>
+				<th>Düzenle</th>
+				<th>Sil</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var book in Model)
+			{
+				<tr>
+					<td>@book.Title</td>
+					<td>@book.Authors</td>
+					<td>@book.BeginDate</td>
+					<td>@book.PageCount</td>
+					<td>
+						<form asp-controller="Book" asp-action="Incomplete" method="post">
+							<input type="hidden" name="id" value="@book.UserBookId" />
+							<button type="submit" class="btn btn-info">Tamamlandı Olarak İşaretle</button>
+						</form>
+					</td>
+					<td>
+						<a class="btn btn-primary btn-sm" asp-controller="Book" asp-action="Edit" asp-route-id="@book.UserBookId">Düzenle</a>
+					</td>
+					<td>
+						<a class="btn btn-danger btn-sm" asp-controller="Book" asp-action="Delete" asp-route-id="@book.UserBookId">Sil</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	<script>
+		function toggleTheme() {
+			const body = document.body;
+			body.classList.toggle('dark-theme');
+			body.classList.toggle('light-theme');
+		}
+	</script>
+</body>
+</html>

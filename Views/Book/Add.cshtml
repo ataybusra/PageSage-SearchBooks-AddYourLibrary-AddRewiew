@@ -1,0 +1,24 @@
+﻿@using PageSage.Areas.Identity.Data;
+@model GoogleBookItemDto;
+
+<h2>Kitap Ekle</h2>
+
+<form asp-action="Add" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Title" class="control-label">Book Title:</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Authors" class="control-label">Authors:</label>
+        <input asp-for="Authors" class="form-control" />
+        <span asp-validation-for="Authors" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <input type="submit" value="Add Book" class="btn btn-primary" />
+    </div>
+</form>
